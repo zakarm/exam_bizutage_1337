@@ -1,0 +1,4 @@
+Assignment name  : only_a\nExpected files   : only_a.c
+Allowed functions: write
+--------------------------------------------------------------------------------
+Write a program that displays an 'a' character on the standard output.
