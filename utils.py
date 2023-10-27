@@ -13,10 +13,10 @@ class bcolors:
     DEFAULT = '\033[39m'
 
 def loginInterface():
-    user = os.environ["USER"]
+    global login
     print()
     printLoad()
-    print(" Login: "+ user, end=" ")
+    print(" Login: "+ login, end=" ")
     printLoad()
     print()
 
@@ -36,7 +36,7 @@ def loopprintProgressBar(prefix):
         time.sleep(0.1)
         printProgressBar(i + 1, l, prefix, suffix = 'Complete', length = 50)
 
-def examBanner():
+def examBanner(login):
     time.sleep(0.200)
     os.system("clear")
     print("\n")
@@ -59,8 +59,8 @@ def examBanner():
     print("i", end= "")
     os.system("clear")
     time.sleep(0.200)
-    print("n : " + bcolors.OKBLUE + os.environ["USER"] + bcolors.DEFAULT + "\nlevel : " + bcolors.OKBLUE + "0.00%" + bcolors.DEFAULT + "\n")
-    print("You're connected "+ bcolors.FAIL + os.environ["USER"] + bcolors.DEFAULT +"!\nYou can log out at any time. If this program tells you you earned points,\n\
+    print("n : " + bcolors.OKBLUE + login + bcolors.DEFAULT + "\nlevel : " + bcolors.OKBLUE + "0.00%" + bcolors.DEFAULT + "\n")
+    print("You're connected "+ bcolors.FAIL + login + bcolors.DEFAULT +"!\nYou can log out at any time. If this program tells you earned points,\n\
 then they will be counted whatever happens.\n\nYou are about to start the project Exam00 at level 0.\n\
 You would have 3hrs to complete this project.\n\
 Press enter to start exam\
@@ -73,42 +73,15 @@ def initExam():
     os.makedirs(os.path.join(exam_dir, "subjects"))
     os.makedirs(os.path.join(exam_dir, "rendu"))
 
-def waitingGrademe():
-    for i in range(0, 12) :
+def waitingGrademe(r, bool):
+    for i in range(0, r) :
         print(bcolors.FAIL + " waiting " + bcolors.DEFAULT, end = "", flush = True)
         for k in range(0, 5):
             print(bcolors.FAIL + "." + bcolors.DEFAULT, end = "", flush = True)
-            time.sleep(0.1)
+            time.sleep(0.2)
         print()
+    if bool == False:
+        print(f"\n{bcolors.FAIL}<< FAILURE >>{bcolors.DEFAULT}\n")
+    else:
+        print(f"\n{bcolors.OKGREEN}<< SUCCESS >>{bcolors.DEFAULT}\n")
 
-
-
-
-# import subprocess
-
-# c_source_file = "test.c"
-# executable = "test"
-
-# compile_command = f"gcc {c_source_file} -o {executable}"
-# compile_process = subprocess.Popen(compile_command, shell=True, stderr=subprocess.PIPE, stdout=subprocess.PIPE)
-# compile_process.communicate()
-
-# if compile_process.returncode == 0:
-#     print("Compilation successful.")
-
-#     run_command = f"./{executable}"
-#     run_process = subprocess.Popen(run_command, shell=True, stderr=subprocess.PIPE, stdout=subprocess.PIPE)
-    
-#     stdout_output, stderr_output = run_process.communicate()
-    
-#     if run_process.returncode == 0:
-#         print("C code executed successfully.")
-#         print("Standard Output:\n", stdout_output.decode('utf-8'))
-#     else:
-#         print("C code execution failed.")
-#         print("Error Output:\n", stderr_output.decode('utf-8'))
-
-# else:
-#     print("Compilation failed.")
-#     stderr_output = compile_process.stderr.read().decode('utf-8')
-#     print("Compilation error:\n", stderr_output)
