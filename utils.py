@@ -33,11 +33,11 @@ def loopprintProgressBar(prefix):
     l = len(items)
     printProgressBar(0, l, prefix, suffix = 'Complete', length = 50)
     for i, item in enumerate(items):
-        time.sleep(0.1)
+        time.sleep(0.030)
         printProgressBar(i + 1, l, prefix, suffix = 'Complete', length = 50)
 
 def examBanner(login):
-    time.sleep(0.200)
+    time.sleep(0.050)
     os.system("clear")
     print("\n")
     loopprintProgressBar(bcolors.FAIL + " Installing dependencies:" + bcolors.DEFAULT)
@@ -51,23 +51,23 @@ def examBanner(login):
     print("\n")
     loopprintProgressBar(bcolors.OKGREEN + "## Future is loading ##" + bcolors.DEFAULT)
     print("l", end= "")
-    time.sleep(0.200)
+    time.sleep(0.050)
     print("o", end= "")
-    time.sleep(0.100)
+    time.sleep(0.050)
     print("g", end= "")
-    time.sleep(0.100)
+    time.sleep(0.050)
     print("i", end= "")
     os.system("clear")
     time.sleep(0.200)
-    print("n : " + bcolors.OKBLUE + login + bcolors.DEFAULT + "\nlevel : " + bcolors.OKBLUE + "0.00%" + bcolors.DEFAULT + "\n")
+    print(f"n : " + bcolors.OKBLUE + login + bcolors.DEFAULT + "\nlevel : " + bcolors.OKBLUE + "0.00%" + bcolors.DEFAULT + "\n")
     print("You're connected "+ bcolors.FAIL + login + bcolors.DEFAULT +"!\nYou can log out at any time. If this program tells you earned points,\n\
-then they will be counted whatever happens.\n\nYou are about to start the project Exam00 at level 0.\n\
-You would have 3hrs to complete this project.\n\
+then they will be counted whatever happens.\n\nYou are about to start the project ExamShell at level 0.\n\
+You would have" + bcolors.WARNING + " 3hrs" + bcolors.DEFAULT + " to complete this project.\n\
 Press enter to start exam\
     ")
 
 def initExam():
-    exam_dir = os.path.expanduser("~/Desktop/exam00")
+    exam_dir = os.path.expanduser("~/Desktop/ExamShell")
     if os.path.isdir(exam_dir):
         shutil.rmtree(exam_dir)
     os.makedirs(os.path.join(exam_dir, "subjects"))
@@ -75,13 +75,12 @@ def initExam():
 
 def waitingGrademe(r, bool):
     for i in range(0, r) :
-        print(bcolors.FAIL + " waiting " + bcolors.DEFAULT, end = "", flush = True)
-        for k in range(0, 5):
-            print(bcolors.FAIL + "." + bcolors.DEFAULT, end = "", flush = True)
-            time.sleep(0.2)
-        print()
+        print(bcolors.DEFAULT + "waiting... " + bcolors.DEFAULT, flush = True)
+        time.sleep(0.300)
     if bool == False:
-        print(f"\n{bcolors.FAIL}<< FAILURE >>{bcolors.DEFAULT}\n")
+        print(f"\n{bcolors.FAIL}>>>>>>>>>> FAILURE <<<<<<<<<<{bcolors.DEFAULT}\n\n")
     else:
-        print(f"\n{bcolors.OKGREEN}<< SUCCESS >>{bcolors.DEFAULT}\n")
+        print(f"\n{bcolors.OKGREEN}>>>>>>>>>> SUCCESS <<<<<<<<<<{bcolors.DEFAULT}\n\n")
+
+
 
