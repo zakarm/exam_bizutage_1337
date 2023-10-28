@@ -131,15 +131,25 @@ def levelLoader():
         desktop_path = f'/Users/zmrabet/Desktop/ExamShell/subjects/mini_serv'
         os.system(f"mkdir -p {desktop_path} && touch {desktop_path}/subject.en.txt")
         shutil.copyfile("./subjects/mini_serv.txt", f"{desktop_path}/subject.en.txt")
-        level3()
-        t3 = True
+        level4()
+        t4 = True
 
 def loginExam():
     global login
     print("ExamShell V2.1\n\n")
     login = input("login : ")
+    f_logins = open("./logins.txt", "r")
+    s_logins = f_logins.read()
+    f_logins.close()
+    while (login not in s_logins):
+        print(bcolors.FAIL + "Error: " + bcolors.DEFAULT + "login incorrect")
+        login = input("login : ")
     password = getpass()
-    list = [1, 5, 7, 8]
+    while login == "" or password == "":
+        print(bcolors.FAIL + "Error: " + bcolors.DEFAULT + "login or password incorrect")
+        login = input("login : ")
+        password = getpass()
+    list = [1, 5, 7, 8, 9, 10, 11, 12]
     if (random.choice(list) == 7):
         print(bcolors.FAIL + "Error: " + bcolors.DEFAULT + "login or password incorrect")
         while True :
@@ -147,30 +157,62 @@ def loginExam():
             password = getpass()
             print(bcolors.FAIL + "Error: " + bcolors.DEFAULT + "login or password incorrect")
 
+def splitTester(exercice):
+    global level
+    exercice_dir = os.path.expanduser(f'/Users/zmrabet/Desktop/ExamShell/rendu/{exercice}')
+    c_source_file = os.path.abspath(f"{exercice_dir}/{exercice}.c")
+    with open(c_source_file, 'a') as file:
+        file.write("\n#include <stdio.h>\nint main(){printf(\"%s\\n%s\", ft_split(\"zakariae mrabet\", ' ')[0], ft_split(\"zakariae mrabet\", ' ')[1]);return 0;}")
+    executable = "a.out"
+    compile_command = f"gcc {c_source_file} -o {executable}"
+    compile_process = subprocess.Popen(compile_command, shell=True, stderr=subprocess.PIPE, stdout=subprocess.PIPE)
+    compile_process.communicate() 
+    if compile_process.returncode == 0:
+        run_command = f"./{executable}"
+        run_process = subprocess.Popen(run_command, shell=True, stderr=subprocess.PIPE, stdout=subprocess.PIPE)
+        stdout_output, stderr_output = run_process.communicate()
+        if run_process.returncode == 0:
+            if (stdout_output.decode('utf-8') == "zakariae\nmrabet"):
+                waitingGrademe(7, True)
+                return True
+            else :
+                waitingGrademe(7, False)
+                return False
+        else :
+                waitingGrademe(7, False)
+                return False
+    else :
+        waitingGrademe(7, False)
+        return False
 
 def mini_moulinette(exercice):
     global level
     exercice_dir = os.path.expanduser(f'/Users/zmrabet/Desktop/ExamShell/rendu/{exercice}')
     if not os.path.isdir(exercice_dir) or not os.path.exists(f'{exercice_dir}/{exercice}.c'):
         waitingGrademe(7, False)
+    if level == 2:
+        if splitTester(exercice) :
+            level += 1
+        print("(Press enter to continue...)")
+        input()
     else :
         c_source_file = os.path.abspath(f"{exercice_dir}/{exercice}.c")
         executable = "a.out"
         compile_command = f"gcc {c_source_file} -o {executable}"
         compile_process = subprocess.Popen(compile_command, shell=True, stderr=subprocess.PIPE, stdout=subprocess.PIPE)
         compile_process.communicate()
-        
         if compile_process.returncode == 0:
             run_command = f"./{executable}"
             run_process = subprocess.Popen(run_command, shell=True, stderr=subprocess.PIPE, stdout=subprocess.PIPE)
             stdout_output, stderr_output = run_process.communicate()
             if run_process.returncode == 0:
                 if (level == 1 and stdout_output.decode('utf-8') == "a\n"):
-                    waitingGrademe(7, True)
-                    level += 1
-                elif (level == 2 and stdout_output.decode('utf-8') == ""):
-                    waitingGrademe(7, True)
-                    level += 1
+                    list = [1, 5, 7, 8, 9, 10, 11, 12]
+                    if (random.choice(list) == 7):
+                        waitingGrademe(7, False)
+                    else :
+                        waitingGrademe(7, True)
+                        level += 1
                 elif (level == 3 and stdout_output.decode('utf-8') == ""):
                     waitingGrademe(7, True)
                     level += 1
@@ -183,7 +225,6 @@ def mini_moulinette(exercice):
                     print(bcolors.OKGREEN + "Congratulations! You have completed the ExamShell.\n\nCurrent Grade: 100 / 100\n\nuse the <finish> to finish the exam" + bcolors.DEFAULT)
             else:
                 waitingGrademe(5, False)
-            
         else:
             waitingGrademe(5, False)
         print("(Press enter to continue...)")
@@ -194,7 +235,6 @@ def main():
     try :
         signal(SIGINT, handler)
         loginExam()
-        
         examBanner(login)
         input()
         os.system("clear")
