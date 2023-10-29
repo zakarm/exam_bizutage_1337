@@ -51,7 +51,7 @@ Exercise location: "+bcolors.FAIL+"~/rendu/microshell"+bcolors.DEFAULT+"\n")
 Subject location:  "+bcolors.OKGREEN+"~/subjects/miniserv"+bcolors.DEFAULT+"\n\
 Exercise location: "+bcolors.FAIL+"~/rendu/miniserv"+bcolors.DEFAULT+"\n")
 
-    print("Here you don't need to use git.\n\n\
+    print("you need to use git in examShell terminal.\n\n\
 End date: "+ str(datetime.datetime.now().strftime('%Y-%m-%d')) +" 04:"+str(random.randrange(2, 30))+":29\n\
 Left time: 2hrs, "+str(random.randrange(2, 30))+"min and 55sec\n\
 ==================================================================\n\
@@ -193,6 +193,21 @@ def mini_moulinette(exercice):
         print("(Press enter to continue...)")
         input()
 
+def gitCommit():
+    print("2 files changed, 4 insertions(+), 42 deletions(-)")
+
+def gitPush():
+    print("Enumerating objects: 9, done.")
+    time.sleep(0.100)
+    print("Counting objects: 100% (9/9), done.")
+    time.sleep(0.100)
+    print("Delta compression using up to 4 threads\n\
+Compressing objects: 100% (4/4), done.\n\
+Writing objects: 100% (5/5), 411 bytes | 411.00 KiB/s, done.\n\
+Total 5 (delta 3), reused 0 (delta 0)")
+    time.sleep(0.100)
+    print("remote: Resolving deltas: 100% (3/3), completed with 3 local objects.\n\
+To vogsphere-v2.42.fr:vogsphere/intra-")
 
 def main():
     try :
@@ -212,8 +227,12 @@ def main():
             data = input()
             if data == "finish": sys.exit(1)
             elif data == "clear": os.system("clear")
-            # elif data == "git add ." or "git add *":
-                
+            elif data == "git add .":
+                pass
+            elif data == "git push":
+                gitPush()
+            elif ["git", "commit", "-m"] == data.split()[0:3]:
+                gitCommit()
             elif data == "grademe":
                 if level == 1: mini_moulinette("only_a")
                 elif level == 2: mini_moulinette("ft_split")
