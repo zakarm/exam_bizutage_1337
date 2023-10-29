@@ -4,6 +4,10 @@ from utils import *
 from getpass import getpass
 import subprocess
 
+def quit_gracefully():
+    print(bcolors.FAIL + 'leave the ExamShell V2.1' + bcolors.DEFAULT)
+
+
 level = 1
 t1 = t2 = t3 = t4 = False
 login = ""
@@ -14,39 +18,38 @@ def handler(signal_received, frame):
 
 def loaderBanner(level):
     print("\nCurrent Grade: "+str(int(25 * (level - 1)))+" / 100\n")
-
     if level >= 1:
         data = int(25 * 1)
         print("   Level "+bcolors.OKGREEN+"0"+bcolors.DEFAULT+":\n\
 \t0: "+ bcolors.OKGREEN+"only_a"+bcolors.DEFAULT+" for " +  str(data) + " potential points \n\n")
         if level == 1:
             print(" Assignment: " + bcolors.OKGREEN+"only_a"+bcolors.DEFAULT+ " for "+ str(data)+"xp, try: 0\n\
-Subject location:  "+bcolors.OKGREEN+"~/Desktop/zmrabet/subjects/only_a"+bcolors.DEFAULT+"\n\
-Exercise location: "+bcolors.FAIL+"~/Desktop/zmrabet/rendu/only_a"+bcolors.DEFAULT+"\n")
+Subject location:  "+bcolors.OKGREEN+"~/subjects/only_a"+bcolors.DEFAULT+"\n\
+Exercise location: "+bcolors.FAIL+"~/rendu/only_a"+bcolors.DEFAULT+"\n")
     if level >= 2:
         data = int(25 * 2)
         print("   Level "+bcolors.OKGREEN+"1"+bcolors.DEFAULT+":\n\
 \t1: "+ bcolors.OKGREEN+"ft_split"+bcolors.DEFAULT+" for " +  str(data) + " potential points \n\n")
         if level == 2:
             print(" Assignment: " + bcolors.OKGREEN+"ft_split"+bcolors.DEFAULT+ " for "+ str(data)+"xp, try: 0\n\
-Subject location:  "+bcolors.OKGREEN+"~/Desktop/zmrabet/subjects/ft_split"+bcolors.DEFAULT+"\n\
-Exercise location: "+bcolors.FAIL+"~/Desktop/zmrabet/rendu/ft_split"+bcolors.DEFAULT+"\n")
+Subject location:  "+bcolors.OKGREEN+"~/subjects/ft_split"+bcolors.DEFAULT+"\n\
+Exercise location: "+bcolors.FAIL+"~/rendu/ft_split"+bcolors.DEFAULT+"\n")
     if level >= 3:
         data = int(25 * 3)
         print("   Level "+bcolors.OKGREEN+"2"+bcolors.DEFAULT+":\n\
 \t2: "+ bcolors.OKGREEN+"microshell"+bcolors.DEFAULT+" for " +  str(data) + " potential points \n\n")
         if level == 3:
             print(" Assignment: " + bcolors.OKGREEN+"microshell"+bcolors.DEFAULT+ " for "+ str(data)+"xp, try: 0\n\
-Subject location:  "+bcolors.OKGREEN+"~/Desktop/zmrabet/subjects/microshell"+bcolors.DEFAULT+"\n\
-Exercise location: "+bcolors.FAIL+"~/Desktop/zmrabet/rendu/microshell"+bcolors.DEFAULT+"\n")
+Subject location:  "+bcolors.OKGREEN+"~/subjects/microshell"+bcolors.DEFAULT+"\n\
+Exercise location: "+bcolors.FAIL+"~/rendu/microshell"+bcolors.DEFAULT+"\n")
     if level >= 4:
         data = int(25 * 4)
         print("   Level "+bcolors.OKGREEN+"3"+bcolors.DEFAULT+":\n\
 \t3: "+ bcolors.OKGREEN+"mini_serv"+bcolors.DEFAULT+" for " +  str(data) + " potential points \n\n")
         if level == 4:
             print(" Assignment: " + bcolors.OKGREEN+"mini_serv"+bcolors.DEFAULT+ " for "+ str(data)+"xp, try: 0\n\
-Subject location:  "+bcolors.OKGREEN+"~/Desktop/zmrabet/subjects/miniserv"+bcolors.DEFAULT+"\n\
-Exercise location: "+bcolors.FAIL+"~/Desktop/zmrabet/rendu/miniserv"+bcolors.DEFAULT+"\n")
+Subject location:  "+bcolors.OKGREEN+"~/subjects/miniserv"+bcolors.DEFAULT+"\n\
+Exercise location: "+bcolors.FAIL+"~/rendu/miniserv"+bcolors.DEFAULT+"\n")
 
     print("Here you don't need to use git.\n\n\
 End date: "+ str(datetime.datetime.now().strftime('%Y-%m-%d')) +" 04:"+str(random.randrange(2, 30))+":29\n\
@@ -54,84 +57,44 @@ Left time: 2hrs, "+str(random.randrange(2, 30))+"min and 55sec\n\
 ==================================================================\n\
 Use the <grademe> command to be graded.\n")
 
-def level1():
+def levelFunction():
     global level
     os.system("clear")
     for i in range(14) :
         print("=",end="", flush=True)
         time.sleep(0.050)
-    print(" You are at level 0 ", end = "")
+    print(f" You are at level {level - 1} ", end = "")
     for i in range(14) :
         print("=",end="", flush=True)
         time.sleep(0.050)
-    loaderBanner(1)
+    loaderBanner(level)
     time.sleep(0.100)
-
-def level2():
-    global level
-    os.system("clear")
-    for i in range(14) :
-        print("=",end="", flush=True)
-        time.sleep(0.050)
-    print(" You are at level 1 ", end = "")
-    for i in range(14) :
-        print("=",end="", flush=True)
-        time.sleep(0.050)
-    loaderBanner(2)
-    time.sleep(0.200)
-
-def level3():
-    global level
-    os.system("clear")
-    for i in range(14) :
-        print("=",end="", flush=True)
-        time.sleep(0.050)
-    print(" You are at level 2 ", end = "")
-    for i in range(14) :
-        print("=",end="", flush=True)
-        time.sleep(0.050)
-    loaderBanner(3)
-    time.sleep(0.200)
-
-def level4():
-    global level
-    os.system("clear")
-    for i in range(14) :
-        print("=",end="", flush=True)
-        time.sleep(0.050)
-    print(" You are at level 3 ", end = "")
-    for i in range(14) :
-        print("=",end="", flush=True)
-        time.sleep(0.050)
-    loaderBanner(3)
-    time.sleep(0.200)
-
 
 def levelLoader():
     global level, t1, t2, t3, t4
     if level == 1 and t1 == False:
-        desktop_path = f'/Users/zmrabet/Desktop/ExamShell/subjects/only_a'
+        desktop_path = os.path.expanduser(f'~/subjects/only_a')
         os.system(f"mkdir -p {desktop_path} && touch {desktop_path}/subject.en.txt")
         shutil.copyfile("./subjects/only_a.txt", f"{desktop_path}/subject.en.txt")
-        level1()
+        levelFunction()
         t1 = True
     elif level == 2 and t2 == False:
-        desktop_path = f'/Users/zmrabet/Desktop/ExamShell/subjects/ft_split'
+        desktop_path = os.path.expanduser(f'~/subjects/ft_split')
         os.system(f"mkdir -p {desktop_path} && touch {desktop_path}/subject.en.txt")
         shutil.copyfile("./subjects/ft_split.txt", f"{desktop_path}/subject.en.txt")
-        level2()
+        levelFunction()
         t2 = True
     elif level == 3 and t3 == False:
-        desktop_path = f'/Users/zmrabet/Desktop/ExamShell/subjects/microshell'
+        desktop_path = os.path.expanduser(f'~/subjects/microshell')
         os.system(f"mkdir -p {desktop_path} && touch {desktop_path}/subject.en.txt")
         shutil.copyfile("./subjects/microshell.txt", f"{desktop_path}/subject.en.txt")
-        level3()
+        levelFunction()
         t3 = True
     elif level == 4 and t4 == False:
-        desktop_path = f'/Users/zmrabet/Desktop/ExamShell/subjects/mini_serv'
+        desktop_path = os.path.expanduser(f'~/subjects/mini_serv')
         os.system(f"mkdir -p {desktop_path} && touch {desktop_path}/subject.en.txt")
         shutil.copyfile("./subjects/mini_serv.txt", f"{desktop_path}/subject.en.txt")
-        level4()
+        levelFunction()
         t4 = True
 
 def loginExam():
@@ -159,7 +122,7 @@ def loginExam():
 
 def splitTester(exercice):
     global level
-    exercice_dir = os.path.expanduser(f'/Users/zmrabet/Desktop/ExamShell/rendu/{exercice}')
+    exercice_dir = os.path.expanduser(f'~/rendu/{exercice}')
     c_source_file = os.path.abspath(f"{exercice_dir}/{exercice}.c")
     with open(c_source_file, 'a') as file:
         file.write("\n#include <stdio.h>\nint main(){printf(\"%s\\n%s\", ft_split(\"zakariae mrabet\", ' ')[0], ft_split(\"zakariae mrabet\", ' ')[1]);return 0;}")
@@ -187,10 +150,10 @@ def splitTester(exercice):
 
 def mini_moulinette(exercice):
     global level
-    exercice_dir = os.path.expanduser(f'/Users/zmrabet/Desktop/ExamShell/rendu/{exercice}')
+    exercice_dir = os.path.expanduser(f'~/rendu/{exercice}')
     if not os.path.isdir(exercice_dir) or not os.path.exists(f'{exercice_dir}/{exercice}.c'):
         waitingGrademe(7, False)
-    if level == 2:
+    elif level == 2:
         if splitTester(exercice) :
             level += 1
         print("(Press enter to continue...)")
@@ -249,13 +212,14 @@ def main():
             data = input()
             if data == "finish": sys.exit(1)
             elif data == "clear": os.system("clear")
+            # elif data == "git add ." or "git add *":
+                
             elif data == "grademe":
                 if level == 1: mini_moulinette("only_a")
                 elif level == 2: mini_moulinette("ft_split")
                 elif level == 3: mini_moulinette("microshell")
                 elif level == 4: mini_moulinette("mini_serv")
             else : print(bcolors.FAIL, "Error: command not found" + bcolors.DEFAULT)
-
     except Exception as e:
         print("Error: " + str(e))
 

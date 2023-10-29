@@ -67,11 +67,14 @@ Press enter to start exam\
     ")
 
 def initExam():
-    exam_dir = os.path.expanduser("~/Desktop/ExamShell")
-    if os.path.isdir(exam_dir):
-        shutil.rmtree(exam_dir)
-    os.makedirs(os.path.join(exam_dir, "subjects"))
-    os.makedirs(os.path.join(exam_dir, "rendu"))
+    subj_dir = os.path.expanduser("~/subjects")
+    if os.path.isdir(subj_dir):
+        shutil.rmtree(subj_dir)
+    rendu_dir = os.path.expanduser("~/rendu")
+    if os.path.isdir(rendu_dir):
+        shutil.rmtree(rendu_dir)
+    os.makedirs(subj_dir)
+    os.makedirs(rendu_dir)
 
 def waitingGrademe(r, bool):
     for i in range(0, r) :
