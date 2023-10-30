@@ -101,12 +101,6 @@ def loginExam():
     global login
     print("ExamShell V2.1\n\n")
     login = input("login : ")
-    f_logins = open("./logins.txt", "r")
-    s_logins = f_logins.read()
-    f_logins.close()
-    while (login not in s_logins):
-        print(bcolors.FAIL + "Error: " + bcolors.DEFAULT + "login incorrect")
-        login = input("login : ")
     password = getpass()
     while login == "" or password == "":
         print(bcolors.FAIL + "Error: " + bcolors.DEFAULT + "login or password incorrect")
