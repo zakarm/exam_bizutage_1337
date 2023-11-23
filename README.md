@@ -54,9 +54,5 @@ The `exam_1337` script is a Python-based shell designed for the 1337 promo's ini
 - Read the magical subjects carefully and unleash your creative wizardry.
 - The script uses Python and whimsy to create a memorable initiation ceremony.
 
-## Sorcerer-in-Chief
-[apollo]
-
-## Magic License
-This bizutage script is enchanted under the [Wizards' Code of Laughter License](LICENSE).
+APOLLO
 
